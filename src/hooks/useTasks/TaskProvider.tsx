@@ -52,6 +52,7 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
           status,
           ...(status === "INITIATED" && { initiatedAt: currentDate }),
           ...(status === "FINISHED" && { finishedAt: currentDate }),
+          ...(status === "TO-DO" && { initiatedAt: null, finishedAt: null }),
         };
       }
 
