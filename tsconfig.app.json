@@ -28,7 +28,8 @@
       "@customTypes/*": ["src/types/*"],
       "@hooks/*": ["src/hooks/*"],
       "@components/*": ["src/components/*"],
-      "@styles": ["src/styles"]
+      "@styles": ["src/styles"],
+      "@styles/*": ["./src/styles/*"]
     }
   },
   "include": ["src"]
