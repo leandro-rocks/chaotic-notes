@@ -1,5 +1,7 @@
+import Checkbox from "@components/Checkbox";
 import { Task } from "@customTypes/task";
 import { useTasks } from "@hooks/useTasks";
+import { Container, TaskTitle } from "./styles";
 
 const TaskItem = ({ id, title, status }: Task) => {
   const { setTaskStatus } = useTasks();
@@ -19,14 +21,13 @@ const TaskItem = ({ id, title, status }: Task) => {
   };
 
   return (
-    <div>
-      <input
-        type="checkbox"
+    <Container>
+      <Checkbox
         checked={status === "FINISHED"}
         onChange={handleCheckboxChange}
       />
-      <span>{title}</span>
-    </div>
+      <TaskTitle finished={status === "FINISHED"}>{title}</TaskTitle>
+    </Container>
   );
 };
 
