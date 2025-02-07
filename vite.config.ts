@@ -8,6 +8,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@hooks": path.resolve(__dirname, "./src/hooks"),
+      "@styles": path.resolve(__dirname, "./src/styles"),
     },
   },
 });
