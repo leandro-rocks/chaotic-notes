@@ -33,8 +33,12 @@ const NewTask = ({
         type="text"
         value={task}
         onChange={(e) => setTask(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            handleAddTask();
+          }
+        }}
       />
-      <button onClick={handleAddTask}>Add Task</button>
     </div>
   );
 };
