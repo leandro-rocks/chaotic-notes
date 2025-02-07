@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Task } from "@customTypes/task";
 import { useDates } from "../../../../hooks/useDates";
+import { Container, NewTaskField } from "./styles";
+import Checkbox from "@components/Checkbox";
 
 const NewTask = ({
   onTaskCreation,
@@ -28,8 +30,9 @@ const NewTask = ({
   };
 
   return (
-    <div>
-      <input
+    <Container>
+      <Checkbox />
+      <NewTaskField
         type="text"
         value={task}
         onChange={(e) => setTask(e.target.value)}
@@ -38,8 +41,9 @@ const NewTask = ({
             handleAddTask();
           }
         }}
+        placeholder="Nova task"
       />
-    </div>
+    </Container>
   );
 };
 
