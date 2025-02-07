@@ -49,8 +49,15 @@ const DateSelector = () => {
     setCurrentDate(nextWeek.toISOString().split("T")[0]);
   };
 
+  const setToday = () => {
+    setCurrentDate(new Date().toISOString().split("T")[0]);
+  };
+
   return (
     <Wrapper>
+      <IconButtonWrapper onClick={() => setToday()}>
+        <Icon name="today" size="xlarge" />
+      </IconButtonWrapper>
       <IconButtonWrapper onClick={setPreviousWeek}>
         <Icon name="chevron_left" size="xlarge" />
       </IconButtonWrapper>
