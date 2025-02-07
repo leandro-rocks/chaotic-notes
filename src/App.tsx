@@ -3,6 +3,8 @@ import DateSelector from "./components/DateSelector";
 import TaskList from "./components/TaskList";
 import { DateProvider } from "./hooks/useDates";
 
+import "./app.css";
+
 function App() {
   return (
     <DateProvider>
