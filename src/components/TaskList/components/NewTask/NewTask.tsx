@@ -3,6 +3,7 @@ import { Task } from "@customTypes/task";
 import { useDates } from "../../../../hooks/useDates";
 import { Container, NewTaskField } from "./styles";
 import Checkbox from "@components/Checkbox";
+import { v4 as uuidv4 } from "uuid";
 
 const NewTask = ({
   onTaskCreation,
@@ -14,7 +15,7 @@ const NewTask = ({
 
   const handleAddTask = () => {
     onTaskCreation({
-      id: "",
+      id: uuidv4(),
       status: "TO-DO",
       archived: false,
       priority: false,
