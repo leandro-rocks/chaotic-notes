@@ -1,21 +1,19 @@
-import { useTasks } from "../../hooks/useTasks";
-import NewTask from "./components/NewTask/NewTask";
+import { useTasks } from "@hooks/useTasks";
+import NewTask from "@components/NewTask";
 import TaskItem from "./components/TaskItem";
 import { Container, List } from "./styles";
 
 const TaskList = () => {
-  const { taskList, addTask } = useTasks();
+  const { taskList } = useTasks();
 
   return (
     <Container>
       <List>
         {taskList.map((task) => (
-          <li>
-            <TaskItem {...task} />
-          </li>
+          <TaskItem {...task} />
         ))}
       </List>
-      <NewTask onTaskCreation={addTask} />
+      <NewTask />
     </Container>
   );
 };

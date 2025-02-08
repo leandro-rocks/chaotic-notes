@@ -1,4 +1,4 @@
-import { spacing } from "@styles";
+import { colors, spacing } from "@styles";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -13,4 +13,8 @@ export const NewTaskField = styled.input`
   width: 100%;
   outline: none;
   border: none;
+
+  &::placeholder {
+    color: ${colors.neutral.light};
+  }
 `;
