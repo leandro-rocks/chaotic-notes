@@ -4,6 +4,7 @@ import styled from "styled-components";
 const Checkbox = styled.input.attrs({
   type: "checkbox",
 })`
+  position: relative;
   border: 2px solid ${colors.neutral.lighter};
   appearance: none;
   width: 20px;
