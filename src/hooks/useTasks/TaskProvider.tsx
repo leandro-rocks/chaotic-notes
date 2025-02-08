@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-import { TaskContextType } from "./types";
+import { AddTaskConfig, TaskContextType } from "./types";
 import { getTasks, saveTasks } from "../../services/storage";
 import { useDates } from "../useDates";
 import { Task } from "@customTypes/task";
@@ -36,8 +36,21 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
     setTaskList(notFinishedTasks);
   }, [currentDate, allTasks]);
 
-  const addTask = (task: Task) => {
-    const newTaskList = [...allTasks, task];
+  const addTask = (task: Task, config?: AddTaskConfig) => {
+    const { insertAfter } = config || {};
+
+    const newTaskList = [...allTasks];
+
+    if (insertAfter) {
+      const index = allTasks.findIndex((t) => t.id === insertAfter);
+      if (index !== -1) {
+        newTaskList.splice(index + 1, 0, task);
+      } else {
+        newTaskList.push(task);
+      }
+    } else {
+      newTaskList.push(task);
+    }
 
     setAllTasks(newTaskList);
 
