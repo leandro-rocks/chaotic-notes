@@ -4,7 +4,7 @@ import { useTasks } from "@hooks/useTasks";
 import { Container, TaskTitle } from "./styles";
 
 const TaskItem = ({ id, title, status }: Task) => {
-  const { setTaskStatus } = useTasks();
+  const { setTaskStatus, editTask } = useTasks();
 
   const handleCheckboxChange = () => {
     console.log("handleCheckboxChange", status);
@@ -20,13 +20,21 @@ const TaskItem = ({ id, title, status }: Task) => {
     }
   };
 
+  const handleTitleCahnge = (e: React.ChangeEvent<HTMLInputElement>) => {
+    editTask(id, { title: e.target.value });
+  };
+
   return (
     <Container>
       <Checkbox
         checked={status === "FINISHED"}
         onChange={handleCheckboxChange}
       />
-      <TaskTitle finished={status === "FINISHED"}>{title}</TaskTitle>
+      <TaskTitle
+        finished={status === "FINISHED"}
+        value={title}
+        onChange={handleTitleCahnge}
+      />
     </Container>
   );
 };

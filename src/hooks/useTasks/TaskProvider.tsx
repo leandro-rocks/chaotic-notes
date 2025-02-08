@@ -36,7 +36,7 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
     setTaskList(notFinishedTasks);
   }, [currentDate, allTasks]);
 
-  const handleAddTask = (task: Task) => {
+  const addTask = (task: Task) => {
     const newTaskList = [...allTasks, task];
 
     setAllTasks(newTaskList);
@@ -44,7 +44,7 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
     saveTasks(newTaskList);
   };
 
-  const handleSetTaskStatus = (id: string, status: Task["status"]) => {
+  const setTaskStatus = (id: string, status: Task["status"]) => {
     const updatedTasks = allTasks.map((task) => {
       if (task.id === id) {
         return {
@@ -64,12 +64,27 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
     saveTasks(updatedTasks);
   };
 
+  const editTask = (id: string, task: Partial<Task>) => {
+    const updatedTasks = allTasks.map((t) => {
+      if (t.id === id) {
+        return { ...t, ...task };
+      }
+
+      return t;
+    });
+
+    setAllTasks(updatedTasks);
+
+    saveTasks(updatedTasks);
+  };
+
   return (
     <TaskContext.Provider
       value={{
         taskList,
-        addTask: handleAddTask,
-        setTaskStatus: handleSetTaskStatus,
+        addTask,
+        setTaskStatus,
+        editTask,
       }}
     >
       {children}
