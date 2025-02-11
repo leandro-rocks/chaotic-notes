@@ -1,40 +1,38 @@
-import { colors, rounding } from "@styles";
-import styled from "styled-components";
+import { Task } from "@customTypes/task";
+import { Input } from "./styles";
+import { useEffect, useRef } from "react";
 
-const Checkbox = styled.input.attrs({
-  type: "checkbox",
-})`
-  position: relative;
-  border: 2px solid ${colors.neutral.lighter};
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: ${rounding.small};
-  text-align: center;
-  box-sizing: border-box;
+type CheckboxExtraProps = {
+  status: Task["status"];
+};
 
-  &:checked {
-    background-color: ${colors.neutral.darkest};
-    border-color: ${colors.neutral.darkest};
+const Checkbox = ({
+  status,
+  ...props
+}: React.InputHTMLAttributes<HTMLInputElement> & CheckboxExtraProps) => {
+  const ref = useRef<HTMLInputElement>(null);
 
-    &::after {
-      content: "check";
-      font-family: "Material Symbols Outlined";
-      font-weight: normal;
-      font-style: normal;
-      font-size: 18px;
-      color: #fff;
-      line-height: 1;
-      letter-spacing: normal;
-      text-transform: none;
-      display: inline-block;
-      white-space: nowrap;
-      word-wrap: normal;
-      direction: ltr;
-      -webkit-font-feature-settings: "liga";
-      -webkit-font-smoothing: antialiased;
+  useEffect(() => {
+    ref.current!.checked = false;
+    ref.current!.indeterminate = false;
+
+    switch (status) {
+      case "TO-DO":
+        ref.current!.checked = false;
+        break;
+      case "FINISHED":
+        ref.current!.checked = true;
+        break;
+      case "INITIATED":
+        ref.current!.checked = false;
+        ref.current!.indeterminate = true;
+        break;
+      default:
+        break;
     }
-  }
-`;
+  }, [status]);
+
+  return <Input ref={ref} {...props} />;
+};
 
 export default Checkbox;

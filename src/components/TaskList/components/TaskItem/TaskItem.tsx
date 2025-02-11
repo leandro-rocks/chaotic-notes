@@ -19,6 +19,9 @@ const TaskItem = ({
   const handleCheckboxChange = () => {
     switch (status) {
       case "TO-DO":
+        setTaskStatus(id, "INITIATED");
+        break;
+      case "INITIATED":
         setTaskStatus(id, "FINISHED");
         break;
       case "FINISHED":
@@ -60,10 +63,7 @@ const TaskItem = ({
   return (
     <Wrapper level={parent ? 1 : 0}>
       <Container>
-        <Checkbox
-          checked={status === "FINISHED"}
-          onChange={handleCheckboxChange}
-        />
+        <Checkbox status={status} onChange={handleCheckboxChange} />
         <TaskTitle
           finished={status === "FINISHED"}
           value={title}
