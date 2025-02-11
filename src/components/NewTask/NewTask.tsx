@@ -57,7 +57,7 @@ const NewTask = ({
 
   return (
     <Container level={level}>
-      <Checkbox />
+      <Checkbox status="TO-DO" />
       <NewTaskField
         ref={ref}
         type="text"
