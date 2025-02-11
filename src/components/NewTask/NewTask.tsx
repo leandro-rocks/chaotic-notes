@@ -50,9 +50,9 @@ const NewTask = ({
     };
 
     addTask(newTask, { insertAfter, transferParents: subtasks });
-    onTaskCreation?.(newTask);
-
     setTask("");
+
+    return newTask;
   };
 
   return (
@@ -66,13 +66,13 @@ const NewTask = ({
         onBlur={() => {
           if (task) {
             handleAddTask();
-          } else {
-            onFocusOut?.();
           }
+          onFocusOut?.();
         }}
         onKeyDown={(e) => {
           if (e.key === "Enter" && task) {
-            handleAddTask();
+            const newtask = handleAddTask();
+            onTaskCreation?.(newtask);
           } else if (e.key === "Escape") {
             onFocusOut?.();
           }
