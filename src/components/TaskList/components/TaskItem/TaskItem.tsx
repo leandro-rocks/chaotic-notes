@@ -2,22 +2,21 @@ import Checkbox from "@components/Checkbox";
 import { Task } from "@customTypes/task";
 import { useTasks } from "@hooks/useTasks";
 import { Container, TaskTitle, Wrapper } from "./styles";
-import { useRef, useState, useEffect } from "react";
-import NewTask from "@components/NewTask";
 
-const TaskItem = ({ id, title, status }: Task) => {
-  const { setTaskStatus, editTask } = useTasks();
-  const [showNewTask, setShowNewTask] = useState(false);
-  const newTaskRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (showNewTask) {
-      newTaskRef.current?.focus();
-    }
-  }, [showNewTask]);
+const TaskItem = ({
+  id,
+  parent,
+  title,
+  status,
+  onInsertNewTask,
+  previousParentTask,
+}: Task & {
+  previousParentTask?: Task["id"] | null;
+  onInsertNewTask?: (id: Task["id"], parent?: Task["id"] | null) => void;
+}) => {
+  const { setTaskStatus, editTask, removeTask } = useTasks();
 
   const handleCheckboxChange = () => {
-    console.log("handleCheckboxChange", status);
     switch (status) {
       case "TO-DO":
         setTaskStatus(id, "FINISHED");
@@ -32,18 +31,34 @@ const TaskItem = ({ id, title, status }: Task) => {
 
   const handleTitleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      setShowNewTask(true);
-
-      return;
+      onInsertNewTask?.(id, parent);
     }
 
-    editTask(id, { title: (event.target as HTMLInputElement).value });
+    if (event.key === "Tab") {
+      if (event.shiftKey) {
+        editTask(id, { parent: null });
+      } else {
+        editTask(id, { parent: previousParentTask });
+      }
+
+      event.preventDefault();
+    }
   };
 
-  const handleTaskCreation = () => setShowNewTask(false);
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    editTask(id, { title: event.target.value });
+  };
+
+  const handleFocusOut = (event: React.FocusEvent<HTMLInputElement>) => {
+    if (!event.target.value) {
+      removeTask(id);
+    } else {
+      editTask(id, { title: event.target.value });
+    }
+  };
 
   return (
-    <Wrapper>
+    <Wrapper level={parent ? 1 : 0}>
       <Container>
         <Checkbox
           checked={status === "FINISHED"}
@@ -53,16 +68,10 @@ const TaskItem = ({ id, title, status }: Task) => {
           finished={status === "FINISHED"}
           value={title}
           onKeyDown={handleTitleKeyDown}
+          onChange={handleTitleChange}
+          onBlur={handleFocusOut}
         />
       </Container>
-      {showNewTask && (
-        <NewTask
-          onTaskCreation={handleTaskCreation}
-          onFocusOut={() => setShowNewTask(false)}
-          insertAfter={id}
-          ref={newTaskRef}
-        />
-      )}
     </Wrapper>
   );
 };

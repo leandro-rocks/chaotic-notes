@@ -1,5 +1,6 @@
 export type Task = {
   id: string;
+  parent: string | null;
   status: "TO-DO" | "INITIATED" | "FINISHED";
   archived: boolean;
   priority: boolean;
@@ -8,6 +9,5 @@ export type Task = {
   addedAt: string;
   initiatedAt: string | null;
   finishedAt: string | null;
-  subtasks: Task[];
   category: string | null;
 };

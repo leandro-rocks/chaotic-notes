@@ -29,20 +29,29 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
         new Date(task.addedAt).getTime() <= new Date(currentDate).getTime()
     );
 
-    const notFinishedTasks = currentDateTasks.filter(
+    const parentTasks = currentDateTasks.filter((task) => !task.parent);
+
+    const notFinishedTasks = parentTasks.filter(
       (task) => !task.finishedAt || task.finishedAt === currentDate
     );
 
-    setTaskList(notFinishedTasks);
+    const sortedSubtasks = notFinishedTasks.reduce((acc, task) => {
+      const subtasks = currentDateTasks.filter((t) => t.parent === task.id);
+
+      return [...acc, task, ...subtasks];
+    }, [] as Task[]);
+
+    setTaskList(sortedSubtasks);
   }, [currentDate, allTasks]);
 
   const addTask = (task: Task, config?: AddTaskConfig) => {
-    const { insertAfter } = config || {};
+    const { insertAfter, transferParents } = config || {};
 
-    const newTaskList = [...allTasks];
+    let newTaskList = [...allTasks];
 
     if (insertAfter) {
       const index = allTasks.findIndex((t) => t.id === insertAfter);
+
       if (index !== -1) {
         newTaskList.splice(index + 1, 0, task);
       } else {
@@ -50,6 +59,16 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
       }
     } else {
       newTaskList.push(task);
+    }
+
+    if (transferParents) {
+      newTaskList = newTaskList.map((t) => {
+        if (transferParents.includes(t.id)) {
+          return { ...t, parent: task.id };
+        }
+
+        return t;
+      });
     }
 
     setAllTasks(newTaskList);
@@ -91,6 +110,14 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
     saveTasks(updatedTasks);
   };
 
+  const removeTask = (id: string) => {
+    const updatedTasks = allTasks.filter((t) => t.id !== id);
+
+    setAllTasks(updatedTasks);
+
+    saveTasks(updatedTasks);
+  };
+
   return (
     <TaskContext.Provider
       value={{
@@ -98,6 +125,7 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
         addTask,
         setTaskStatus,
         editTask,
+        removeTask,
       }}
     >
       {children}
