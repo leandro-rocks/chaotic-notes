@@ -1,7 +1,7 @@
-import { TaskProvider } from "./hooks/useTasks";
-import DateSelector from "./components/DateSelector";
-import TaskList from "./components/TaskList";
-import { DateProvider } from "./hooks/useDates";
+import { TaskProvider } from "@hooks/useTasks";
+import TaskList from "@components/TaskList";
+import { DateProvider } from "@hooks/useDates";
+import Header from "@components/Header";
 
 import "./app.css";
 
@@ -9,7 +9,7 @@ function App() {
   return (
     <DateProvider>
       <TaskProvider>
-        <DateSelector />
+        <Header />
         <TaskList />
       </TaskProvider>
     </DateProvider>
