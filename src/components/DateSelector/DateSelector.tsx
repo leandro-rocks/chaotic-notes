@@ -29,7 +29,12 @@ const DateSelector = () => {
   }, [currentDate]);
 
   const getFormattedDate = (date: Date) => {
-    const month = date.toLocaleString("default", { month: "short" });
+    const month =
+      date
+        .toLocaleString("default", { month: "short" })
+        .charAt(0)
+        .toUpperCase() +
+      date.toLocaleString("default", { month: "short" }).slice(1);
     const day = date.getDate();
 
     return `${month.slice(0, -1)} | ${day}`;
