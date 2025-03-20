@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
   flex-direction: row;
   gap: ${spacing.medium};
   align-items: center;
-  padding: ${spacing.medium} 0 0 0;
+  padding: 0;
 `;
 
 export const DateItemContainer = styled.ul`
@@ -22,7 +22,7 @@ export const DateItem = styled.li<{ selected: boolean; today: boolean }>`
   position: relative;
   gap: 8px;
   align-items: center;
-  padding: ${spacing.small} 0;
+  padding: ${spacing.medium} 0 ${spacing.xsmall} 0;
   width: 92px;
   text-align: center;
   border: 1px solid ${colors.neutral.lightest};
@@ -33,7 +33,7 @@ export const DateItem = styled.li<{ selected: boolean; today: boolean }>`
   &::before {
     content: attr(data-weekday);
     position: absolute;
-    top: -18px;
+    top: 4px;
     left: 50%;
     transform: translateX(-50%);
     display: block;
@@ -52,15 +52,14 @@ export const DateItem = styled.li<{ selected: boolean; today: boolean }>`
         border-color: ${colors.neutral.darkest};
 
         &::before {
-                color: ${colors.neutral.darkest};
+          color: ${colors.white.medium};
         }
     `};
 
   ${({ today }) =>
     today &&
-    `        
+    `       
         color: ${colors.danger.medium};
-
     `};
 `;
 
